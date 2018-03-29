@@ -75,11 +75,12 @@ echo "	3) $FONTS_BRANDS"
 echo ""
 
 if ! [ -d "$FONTS_DIR" ];then
-    mkdir "$FONTS_DIR" 
-    cp ./fonts/"$FONTS_REG"   "$FONTS_DIR" 
-    cp ./fonts/"$FONTS_SOLID" "$FONTS_DIR"
-    cp ./fonts/"$FONTS_BRANDS" "$FONTS_DIR"
-else
+    mkdir "$FONTS_DIR"
+fi 
+cp "$FONTS_REG"   "$FONTS_DIR" 
+cp "$FONTS_SOLID" "$FONTS_DIR"
+cp "$FONTS_BRANDS" "$FONTS_DIR"
+
 
 
 echo "Finished!"
