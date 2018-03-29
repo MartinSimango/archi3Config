@@ -1,4 +1,4 @@
-#! /bin/bashi
+#! /bin/bash
 
 I3_CONFIG_DIR=~/.config/i3
 OLD_I3_CONFIG_DIR=~/.config/i3_old$$
@@ -20,7 +20,7 @@ yes_no(){
 
 echo ""
 echo "This program will make changes to your i3 config folder"
-echo "Your old config folder can be found at $OLD_CONFIG_DIR"
+echo "Your old config folder can be found at $OLDI_I3_CONFIG_DIR"
 echo ""
 echo "Do you want to continue[Y/n]?"
 echo""
@@ -72,14 +72,14 @@ echo ""
 echo "The following files will be placed into $FONTS_DIR: "
 echo "	1) $FONTS_REG"
 echo "	2) $FONTS_SOLID"
-echo "	3) $FONTS_BRAND"
+echo "	3) $FONTS_BRANDS"
 echo ""
 
 if ! [ -d "$FONTS_DIR" ];then
     mkdir "$FONTS_DIR" 
     cp ./fonts/"$FONTS_REG"   "$FONTS_DIR" 
     cp ./fonts/"$FONTS_SOLID" "$FONTS_DIR"
-    cp ./fonts/"$FONTS_BRAND" "$FOMTS_DIR"
+    cp ./fonts/"$FONTS_BRANDS" "$FONTS_DIR"
 else
 
 
