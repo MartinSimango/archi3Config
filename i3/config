@@ -93,8 +93,11 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 set $workspace1  "1: Term "
-set $workspace2  "2: Chrome " 
-#set $workspace10 "10: Spotify"
+
+#set $workspace2  "2: Chrome "
+set $workspace2  "2: Firefox " 
+
+set $workspace10 "10: Music Player"
 
 
 
@@ -123,7 +126,10 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 #assign [class="Gnome-terminal"]  $workspace1
-assign  [class ="Google-chrome"]  $workspace2
+#assign  [class ="Google-chrome"]  $workspace2
+
+assign [class ="Firefox"]  $workspace2
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -190,7 +196,8 @@ bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 #exec gnome-terminal
 
 #workspace2
-exec google-chrome
+#exec google-chrome
+exec firefox
 
 #workspace10
 #exec spotify
