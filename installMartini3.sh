@@ -2,9 +2,9 @@
 
 I3_CONFIG_DIR=~/.config/i3
 OLD_I3_CONFIG_DIR=~/.config/i3_old$$
-FONTS_REG=~/fonts/fa-regular-400.ttf
-FONTS_SOLID=~/fonts/fa-solid-900.ttf
-FONTS_BRANDS=~/fonts/fa-brands-400.ttf
+FONTS_REG=/fonts/fa-regular-400.ttf
+FONTS_SOLID=/fonts/fa-solid-900.ttf
+FONTS_BRANDS=/fonts/fa-brands-400.ttf
 FONTS_DIR=~/.fonts
 
 
