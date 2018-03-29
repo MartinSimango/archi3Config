@@ -59,7 +59,6 @@ fi
 if [ -d "$I3_CONFIG_DIR" ]; then
 	move_old_i3	
 else
-   echo "no it is not";
    mkdir $I3_CONFIG_DIR
    cp ./i3/config "$I3_CONFIG_DIR"
    cp ./i3/images "$I3_CONFIG_DIR"
