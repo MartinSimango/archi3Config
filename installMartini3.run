@@ -1,0 +1,72 @@
+#! /bin/bash
+
+I3_CONFIG_DIR=~/.config/i3
+OLD_I3_CONFIG_DIR=~/.config/i3_old$$
+FONTS_REG=~/.fonts/fa-regular-400.ttf
+FONTS_SOLID=~/.fonts/fa-solid-900.ttf
+FONTS_BRANDS=~/.fonts/fa-brands-400.ttf
+FONTS_DIR=~/.fonts
+
+
+yes_no(){
+    read -p "Do you want to continue[Y/n]? " reply
+    #reply=${reply:0:1};
+    case $reply in
+      y*|Y*|'') return 0 ;;
+      n*|N*) exit 1;;
+        * ) echo "Abort" ;exit 1;
+     esac
+}
+
+
+echo "This program will make changes to your i3 config folder"
+echo "Your old config folder can be found at $OLD_CONFIG_DIR"
+echo "Do you want to continue[Y/n]?"
+
+yes_no
+
+#$OLD_CONFIG_DIR
+
+#install the package for wallpaper settings
+#pacman -S feh
+install() {
+     if ! [ -x "$(command -v feh )" ]; then
+     	echo >&2 "Package feh is needed installation!"
+     	echo "Installing package feh:";
+        pacman -S feh
+     fi
+}
+
+move_old_i3(){
+	mk_dir "$OLD_I3_CONFIG_DIR"
+        mv "$I3_CONFIG_DIR" "$OLD_I3_CONFIG_DIR"
+}
+
+echo ""
+echo "Installing appropriate packages"
+echo ""
+
+install
+
+if ! [ -x "$(command -v feh )" ]; then
+   echo "Failed to install package feh"
+   echo "Closing program now"
+   exit 1
+fi
+
+if [ -d "$I3_CONFIG_DIR" ]; then
+	move_old_i3	
+else
+   echo "no it is not";
+#  mkdir $I3_CONFIG_DIR
+#  cp ./i3/config "$I3_CONFIG_DIR"
+#  cp ./i3/images "$I3_CONFIG_DIR"
+fi
+
+if [ -d "$FONTS_DIR" ];then
+    mkdir
+else
+
+echo "Finished!"
+exit 0
+
