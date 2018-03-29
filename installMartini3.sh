@@ -20,10 +20,9 @@ yes_no(){
 
 echo ""
 echo "This program will make changes to your i3 config folder"
-echo "Your old config folder can be found at $OLDI_I3_CONFIG_DIR"
+echo "Your old config folder can be found at $OLD_I3_CONFIG_DIR"
 echo ""
-echo "Do you want to continue[Y/n]?"
-echo""
+echo ""
 
 yes_no
 
