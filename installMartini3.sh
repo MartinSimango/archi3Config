@@ -39,7 +39,7 @@ install() {
 }
 
 move_old_i3(){
-	mk_dir "$OLD_I3_CONFIG_DIR"
+	mkdir "$OLD_I3_CONFIG_DIR"
         mv "$I3_CONFIG_DIR" "$OLD_I3_CONFIG_DIR"
 }
 
