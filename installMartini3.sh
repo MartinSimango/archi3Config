@@ -32,7 +32,7 @@ yes_no
 #pacman -S feh
 install() {
      if ! [ -x "$(command -v feh )" ]; then
-     	echo >&2 "Package feh is needed installation!"
+     	echo >&2 "Package feh is needed for installation!"
      	echo "Installing package feh:";
         pacman -S feh
      fi
@@ -60,9 +60,9 @@ if [ -d "$I3_CONFIG_DIR" ]; then
 	move_old_i3	
 else
    mkdir $I3_CONFIG_DIR
-   cp -r ./i3/config "$I3_CONFIG_DIR"
-   cp -r ./i3/images "$I3_CONFIG_DIR"
 fi
+cp -r ./i3/config "$I3_CONFIG_DIR"
+cp -r ./i3/images "$I3_CONFIG_DIR"
 
 #copy font files
 
