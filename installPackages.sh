@@ -23,19 +23,19 @@ install() {
      if ! [ -x "$(command -v feh )" ]; then
         echo >&2 "package feh is needed for installation!"
         echo "installing package feh:";
-        pacman -s feh
+        pacman -S feh
      fi
 
      if ! [ -x "$(command -v compton )" ]; then
         echo >&2 "package feh is needed for installation!"
         echo "installing package feh:";
-        pacman -s compton
+        pacman -S compton
      fi
 
      if ! [ -x "$(command -v rofi )" ]; then
         echo >&2 "package feh is needed for installation!"
         echo "installing package feh:";
-        pacman -s rofi
+        pacman -S rofi
      fi	
 
 
