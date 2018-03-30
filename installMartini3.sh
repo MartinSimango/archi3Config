@@ -58,9 +58,8 @@ fi
 #check for i3 config file
 if [ -d "$I3_CONFIG_DIR" ]; then
 	move_old_i3	
-else
-   mkdir $I3_CONFIG_DIR
 fi
+mkdir $I3_CONFIG_DIR
 cp -r ./i3/config "$I3_CONFIG_DIR"
 cp -r ./i3/images "$I3_CONFIG_DIR"
 
