@@ -7,53 +7,61 @@ FONTS_SOLID=fonts/fa-solid-900.ttf
 FONTS_BRANDS=fonts/fa-brands-400.ttf
 FONTS_DIR=~/.fonts
 
+check_install(){
+   
+   if ! [ -x "$(command -v feh )" ]; then
+         echo "Failed to install package feh"
+  	 echo "Closing program now"
+  	 exit 1
+   fi
+
+   if ! [ -x "$(command -v compton )" ]; then
+   	 echo "Failed to install package compton"
+   	 echo "Closing program now"
+   	 exit 1
+
+   fi
+
+   if ! [ -x "$(command -v rofi )" ]; then
+  	 echo "Failed to install package feh"
+         echo "Closing program now"
+   	 exit 1
+   fi
+}
+
+move_old_i3(){
+	mkdir "$old_i3_config_dir"
+        mv "$i3_config_dir" "$old_i3_config_dir"
+}
 
 yes_no(){
-    read -p "Do you want to continue[Y/n]? " reply
+    read -p "do you want to continue[y/n]? " reply
     #reply=${reply:0:1};
     case $reply in
-      y*|Y*|'') return 0 ;;
-      n*|N*) exit 1;;
-        * ) echo "Abort" ;exit 1;
+      y*|y*|'') return 0 ;;
+      n*|n*) exit 1;;
+        * ) echo "abort" ;exit 1;
      esac
 }
 
 echo ""
-echo "This program will make changes to your i3 config folder"
-echo "Your old config folder can be found at $OLD_I3_CONFIG_DIR"
+echo "this program will make changes to your i3 config folder"
+echo "your old config folder can be found at $old_i3_config_dir"
 echo ""
 echo ""
 
 yes_no
 
-#$OLD_CONFIG_DIR
-
-#install the package for wallpaper settings
-#pacman -S feh
-install() {
-     if ! [ -x "$(command -v feh )" ]; then
-     	echo >&2 "Package feh is needed for installation!"
-     	echo "Installing package feh:";
-        pacman -S feh
-     fi
-}
-
-move_old_i3(){
-	mkdir "$OLD_I3_CONFIG_DIR"
-        mv "$I3_CONFIG_DIR" "$OLD_I3_CONFIG_DIR"
-}
 
 echo ""
-echo "Installing appropriate packages"
+echo "::Installing appropriate packages"
 echo ""
 
-install
+#run the install script to the packages
+./installPackages.sh
+
 #check if package feh was successfully installed"
-if ! [ -x "$(command -v feh )" ]; then
-   echo "Failed to install package feh"
-   echo "Closing program now"
-   exit 1
-fi
+check_install
 
 #check for i3 config file
 if [ -d "$I3_CONFIG_DIR" ] || [ -f "$I3_CONFID_DIR" ]; then
