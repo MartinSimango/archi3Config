@@ -56,12 +56,14 @@ if ! [ -x "$(command -v feh )" ]; then
 fi
 
 #check for i3 config file
-if [ -d "$I3_CONFIG_DIR" ]; then
+if [ -d "$I3_CONFIG_DIR" ] || [ -f "$I3_CONFID_DIR" ]; then
 	move_old_i3	
+     
 fi
-mkdir $I3_CONFIG_DIR
-cp -r ./i3/config "$I3_CONFIG_DIR"
-cp -r ./i3/images "$I3_CONFIG_DIR"
+mkdir "$I3_CONFIG_DIR"
+mkdir "$I3_CONFIG_DIR"/images
+cp -r i3/config "$I3_CONFIG_DIR"
+cp -r i3/images "$I3_CONFIG_DIR"
 
 #copy font files
 
