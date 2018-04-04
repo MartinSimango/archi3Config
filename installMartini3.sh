@@ -61,7 +61,7 @@ echo ""
 ./installPackages.sh
 
 #check if package feh was successfully installed"
-check_install
+#check_install
 
 #check for i3 config file
 if [ -d "$I3_CONFIG_DIR" ] || [ -f "$I3_CONFID_DIR" ]; then
