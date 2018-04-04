@@ -1,0 +1,221 @@
+#! /bin/bash
+
+
+I3WMTHEME_PATH=~/i3wm-themer/themes
+I3WM_PATH=~/i3wm-themer/scripts/
+VERSION=1.0
+
+#array to store themes
+declare -a arr_themes=()
+
+#get the current theme that is set
+CURRENT_THEME=$(cat "$I3WMTHEME_PATH/.CurrentTheme")
+
+OPTION=$1
+THEME=$2
+
+
+msg(){
+  NORMAL="\e[1;0m"
+  BOLD="\e[1;1m"
+  COLORED="${BOLD}\e[1;32m"
+  local option=$1
+  local message=$2
+  if [ "$option" == "-n"  ];then
+     printf "\n${COLORED}${BOLD}[*] ${message}${NORMAL}"  
+  elif [ "$option" == "-e" ];then 
+     printf "\n${COLORED}${BOLD}Error: ${message}!"  
+  fi
+	
+}
+
+ext(){
+   echo
+   msg -n "changeOSTheme finished\n\n"
+   exit 0
+}
+
+add_themes(){
+   
+   NUM_THEMES=$#
+   for theme in "$@" 
+   do
+      arr_themes=("${arr_themes[@]}" "$theme")
+   done	
+		
+
+}
+
+#add all i3 themes to the theme array
+add_themes $(ls "$I3WMTHEME_PATH") 
+
+change_theme(){
+   local theme=$1
+   cd $I3WM_PATH && ./i3wmthemer -t "$theme" 2 > /dev/null #supress output
+   msg -n "Changed to "$theme" theme"
+   echo $theme > "$I3WMTHEME_PATH/.CurrentTheme"
+
+
+}
+change_to_themeNum(){
+   local theme_num=$1
+   if [ -z "$theme_num" ];then
+	msg -e "No theme number given"
+	ext
+   else
+      if [ $theme_num -lt 0 ] || [ $theme_num -gt $NUM_THEMES ];then
+	      msg -e "Invalid theme number"
+	      printf "\n(Tip: Run with option -l to see all themes)"
+	      ext
+      else
+	local i=1
+	
+	for theme in "${arr_themes[@]}"
+	do
+	if ! [ $i -lt $theme_num ]; then
+           break	
+	fi	
+	   i=$((i + 1))
+	done
+	msg -n "Changing to "$theme" theme..."
+	echo ""
+ 	change_theme $theme	
+		
+      fi
+   fi
+}
+
+list_themes(){
+  
+   echo ""   
+   echo "Number of Themes: $NUM_THEMES"
+   echo "Current Theme: $CURRENT_THEME"
+   echo "Themes: "
+
+   local i=0
+   
+   for theme in "${arr_themes[@]}"
+   do      
+      i=$((i + 1))
+      if [ "$theme" == "$CURRENT_THEME" ]; then
+          echo "		$i: $theme*"
+      else
+         echo  "		$i: $theme "
+      fi
+
+   done    
+
+}
+
+next_theme(){
+	
+   local i=0
+   local inc=$1 #how much to increment by always either -1 or 1
+   for theme in "${arr_themes[@]}"
+   do      
+      i=$((i + 1))
+      if [ "$theme" == "$CURRENT_THEME" ]; then
+	 i=$((i+inc))
+         if [ $i -gt $NUM_THEMES ]; then
+		i=1
+	 elif [ $i -lt 1 ];then
+		 i=$((NUM_THEMES))
+	 fi
+ 	 change_to_themeNum $i	 
+      fi
+
+   done 
+}
+is_theme(){
+   
+   if [ -z "$1" ];then
+      msg -e "Theme not specified"
+      return 2 
+   fi
+   for theme in "${arr_themes[@]}"
+   do      
+      if [ "$theme" == "$1" ]; then
+         return 0
+      fi
+
+   done 
+   return 1
+
+}
+set_picture(){
+   
+   local pic=$1
+   if [ -z "$pic" ];then
+      feh --bg-fill "$I3WMTHEME_PATH/$CURRENT_THEME/$CURRENT_THEME.png"
+      msg -n "Wallpaper set to $CURRENT_THEME theme default pic"
+   elif [ -f "$pic" ];then
+      feh --bg-fill $pic 2> /dev/null
+      result=$?
+      if [ $result -eq 0 ]; then
+         msg -n "Wallpaper set to $pic"
+      else
+         msg -e "Failed to set $pic as wallpaper"
+         printf "\nAre you sure $pic is an image file?"
+      fi
+   else
+      msg -e "$pic is not a file"     
+   fi
+
+
+}
+help_menu(){
+	echo ""
+	echo "changOSTheme 1.0 (2018 April 4, compiled April 4 15:28:44)"
+	echo ""
+	echo "usage: changeOSTheme [options] [argument]  set the theme complying to the argument"
+	echo "   or: changeOSTheme [direction]           go to theme specified in direction specified
+	"
+	echo ""
+	echo "Direction:"
+	echo "   next                                    Go to the next theme"
+	echo "   prev                                    Go to the previous theme" 
+	echo ""
+	echo "Options:"
+	echo "   -n or --number [argument]               Go the n'th theme"	 
+	echo "   -p or --picture [argument]              Set the specified picture as the wallpaper"
+	echo "                                           if none is specified chooses current theme's wallpaper"
+	echo "   -t or --theme [argument]                Change to specified theme"
+	echo "   -l or --list                            List all the themes"		
+	echo "   -h or --help                            Print Help(this message) and exit"
+  	echo "   --version                               Print version information and exit"
+	echo ""
+}
+
+print_version(){
+   echo "v$VERSION"
+
+}
+case $OPTION in
+   "-t"|"--theme") 
+	   is_theme "$2"
+	   result=$?
+	   if [ $result -eq 0 ]; then 
+	      msg -n "Changing to "$theme" theme..."
+	      echo ""
+              change_theme $2
+	   elif [ $result -eq 1 ]; then
+	      msg -e "Theme '$2' not found in "$I3WMTHEME_PATH""
+     	   fi		   
+   ;;
+   "-n"|"--number") change_to_themeNum $2;;
+   "-l"|"--list") list_themes;;
+   "-p"|"--picture") set_picture "$2";;
+   "next") next_theme 1;;
+   "prev") next_theme -1;;
+   "--help"|"-h") help_menu 
+	          exit 0;;
+   "--version") print_version 
+                exit 0 ;;
+    *) echo "Invalid options --help for help";;
+esac
+
+	
+ext
+
+
+             
